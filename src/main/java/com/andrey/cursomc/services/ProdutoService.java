@@ -5,8 +5,10 @@ import java.util.Optional;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import com.andrey.cursomc.domain.Categoria;
 import com.andrey.cursomc.domain.Produto;
 import com.andrey.cursomc.repositories.ProdutoRepository;
+import com.andrey.cursomc.services.exceptions.ObjectNotFoundException;
 
 @Service
 public class ProdutoService {
@@ -15,10 +17,9 @@ public class ProdutoService {
 	private ProdutoRepository repo;
 	
 	public Produto buscar(Integer id) {
-		
 		Optional<Produto> obj = repo.findById(id);
-		return obj.orElse(null);
-		
-	}
-
+		return obj.orElseThrow(() -> new ObjectNotFoundException(
+		"Objeto não encontrado! Id: " + id + ", Tipo: " + Produto.class.getName()));
+		}	
+	
 }
