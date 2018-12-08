@@ -3,24 +3,25 @@ package com.andrey.cursomc.domain;
 import java.io.Serializable;
 
 import javax.persistence.Entity;
-import javax.persistence.GeneratedValue;
-import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.Inheritance;
+import javax.persistence.InheritanceType;
 import javax.persistence.JoinColumn;
 import javax.persistence.MapsId;
 import javax.persistence.OneToOne;
 
 import com.andrey.cursomc.domain.enums.EstadoPagamento;
-import com.fasterxml.jackson.annotation.JsonBackReference;
 
 @Entity
-public class Pagamento implements Serializable {
+@Inheritance(strategy=InheritanceType.JOINED)
+//Classe criada como abstract para nunca instanciar um objeto tipo pagamento e sim pagamentocomboleto ou pagamentocomcartao
+public abstract class Pagamento implements Serializable {
 	
 	private static final long serialVersionUID = 1L;
 
 	@Id
 	private Integer id;
-	private EstadoPagamento estado;
+	private Integer estado;
 
 	//Mapaeamento do atributo pedido
 	//A associação com Pedido onde o Id do Pagamento tem que ser o mesmo do Pedido e é feito desta forma
@@ -36,7 +37,7 @@ public class Pagamento implements Serializable {
 	public Pagamento(Integer id, EstadoPagamento estado, Pedido pedido) {
 		super();
 		this.id = id;
-		this.estado = estado;
+		this.estado = estado.getCod();
 		this.pedido = pedido;
 	}
 
@@ -49,11 +50,11 @@ public class Pagamento implements Serializable {
 	}
 
 	public EstadoPagamento getEstado() {
-		return estado;
+		return EstadoPagamento.toEnum(estado);
 	}
 
 	public void setEstado(EstadoPagamento estado) {
-		this.estado = estado;
+		this.estado = estado.getCod();
 	}
 
 	public Pedido getPedido() {

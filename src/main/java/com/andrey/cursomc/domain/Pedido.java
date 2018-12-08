@@ -1,9 +1,7 @@
 package com.andrey.cursomc.domain;
 
 import java.io.Serializable;
-import java.util.ArrayList;
 import java.util.Date;
-import java.util.List;
 
 import javax.persistence.CascadeType;
 import javax.persistence.Entity;
@@ -11,10 +9,8 @@ import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
-import javax.persistence.MapsId;
+import javax.persistence.ManyToOne;
 import javax.persistence.OneToOne;
-
-import com.fasterxml.jackson.annotation.JsonManagedReference;
 
 @Entity
 public class Pedido implements Serializable {
@@ -30,20 +26,26 @@ public class Pedido implements Serializable {
 	@OneToOne(cascade=CascadeType.ALL, mappedBy="pedido") //Necessário o cascade porque pode dar um erro de entidade transiente quando for salvar o pedido e seu pagamento
 	private Pagamento pagamento;
 
+	//Mapeamento do cliente
+	@ManyToOne
+	@JoinColumn(name="cliente_id")
 	private Cliente cliente;
+	
+	//Mapeamento do endereço de entrega
+	@ManyToOne
+	@JoinColumn(name="endereco_de_entrega_id")
 	private Endereco enderecoDeEntrega;
 	
-	private ArrayList<Produto> produtos = new ArrayList<>();
+	//private ArrayList<Produto> produtos = new ArrayList<>();
 
 	public Pedido() {
 		
 	}
 
-	public Pedido(Integer id, Date instante, Pagamento pagamento, Cliente cliente, Endereco enderecoDeEntrega) {
+	public Pedido(Integer id, Date instante, Cliente cliente, Endereco enderecoDeEntrega) {
 		super();
 		this.id = id;
 		this.instante = instante;
-		this.pagamento = pagamento;
 		this.cliente = cliente;
 		this.enderecoDeEntrega = enderecoDeEntrega;
 	}
@@ -87,7 +89,7 @@ public class Pedido implements Serializable {
 	public void setEnderecoDeEntrega(Endereco enderecoDeEntrega) {
 		this.enderecoDeEntrega = enderecoDeEntrega;
 	}
-
+/*
 	public ArrayList<Produto> getProdutos() {
 		return produtos;
 	}
@@ -95,7 +97,7 @@ public class Pedido implements Serializable {
 	public void setProdutos(ArrayList<Produto> produtos) {
 		this.produtos = produtos;
 	}
-
+*/
 	@Override
 	public int hashCode() {
 		final int prime = 31;
