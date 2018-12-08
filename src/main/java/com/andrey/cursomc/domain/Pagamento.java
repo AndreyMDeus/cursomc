@@ -2,15 +2,31 @@ package com.andrey.cursomc.domain;
 
 import java.io.Serializable;
 
-import com.andrey.cursomc.domain.enums.EstadoPagamento;
+import javax.persistence.Entity;
+import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
+import javax.persistence.Id;
+import javax.persistence.JoinColumn;
+import javax.persistence.MapsId;
+import javax.persistence.OneToOne;
 
+import com.andrey.cursomc.domain.enums.EstadoPagamento;
+import com.fasterxml.jackson.annotation.JsonBackReference;
+
+@Entity
 public class Pagamento implements Serializable {
 	
 	private static final long serialVersionUID = 1L;
 
+	@Id
 	private Integer id;
 	private EstadoPagamento estado;
-	
+
+	//Mapaeamento do atributo pedido
+	//A associação com Pedido onde o Id do Pagamento tem que ser o mesmo do Pedido e é feito desta forma
+	@OneToOne //Associação Um para Um
+	@JoinColumn(name="pedido_id") //Coluna na entitade Pedido de referência
+	@MapsId //Mapeando o relacionamento
 	private Pedido pedido;
 	
 	public Pagamento() {
