@@ -11,7 +11,7 @@ import javax.persistence.MapsId;
 import javax.persistence.OneToOne;
 
 import com.andrey.cursomc.domain.enums.EstadoPagamento;
-import com.fasterxml.jackson.annotation.JsonBackReference;
+import com.fasterxml.jackson.annotation.JsonIgnore;
 
 @Entity
 @Inheritance(strategy=InheritanceType.JOINED)
@@ -26,7 +26,7 @@ public abstract class Pagamento implements Serializable {
 
 	//Mapaeamento do atributo pedido
 	//A associação com Pedido onde o Id do Pagamento tem que ser o mesmo do Pedido e é feito desta forma
-	@JsonBackReference
+	@JsonIgnore
 	@OneToOne //Associação Um para Um
 	@JoinColumn(name="pedido_id") //Coluna na entitade Pedido de referência
 	@MapsId //Mapeando o relacionamento

@@ -1,10 +1,8 @@
 package com.andrey.cursomc.domain;
 
 import java.io.Serializable;
-import java.util.ArrayList;
 import java.util.Date;
 import java.util.HashSet;
-import java.util.List;
 import java.util.Set;
 
 import javax.persistence.CascadeType;
@@ -18,7 +16,6 @@ import javax.persistence.OneToMany;
 import javax.persistence.OneToOne;
 
 import com.fasterxml.jackson.annotation.JsonFormat;
-import com.fasterxml.jackson.annotation.JsonManagedReference;
 
 @Entity
 public class Pedido implements Serializable {
@@ -33,12 +30,10 @@ public class Pedido implements Serializable {
 	private Date instante;
 
 	//Mapaeamento do atributo Pagamento
-	@JsonManagedReference
 	@OneToOne(cascade=CascadeType.ALL, mappedBy="pedido") //Necessário o cascade porque pode dar um erro de entidade transiente quando for salvar o pedido e seu pagamento
 	private Pagamento pagamento;
 
 	//Mapeamento do cliente
-	@JsonManagedReference
 	@ManyToOne
 	@JoinColumn(name="cliente_id")
 	private Cliente cliente;
